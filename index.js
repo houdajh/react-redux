@@ -1,9 +1,15 @@
 
 const redux = require('redux')
+const reduxLogger=require('redux-logger')
 
 const createStore = redux.createStore
 
 const combin=redux.combineReducers
+
+
+const applyMiddleware=redux.applyMiddleware
+const logger=reduxLogger.createLogger()
+
 //create an action
 
 const BUY_CAKE="BUY_CAKE"
@@ -61,10 +67,12 @@ const rootReducer = combin({
     ice:reducerIce
 })
 
-const store = createStore(rootReducer)
+const store = createStore(rootReducer,applyMiddleware(logger))
 console.log('initial state', store.getState())
 
-const unsubscribe= store.subscribe(()=>{console.log('updated state ', store.getState())})
+//const unsubscribe= store.subscribe(()=>{console.log('updated state ', store.getState())})
+//now we have middleware
+const unsubscribe= store.subscribe(()=>{})
 
 store.dispatch(BUYCAKE())
 store.dispatch(BUYCAKE())
